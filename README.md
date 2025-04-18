@@ -1,6 +1,6 @@
 # coraza
 
 ```
-GOOS=wasip1 GOARCH=wasm go build -o nextraw.wasm nextraw.go
+GOOS=wasip1 GOARCH=wasm go build -o coraza.wasm coraza.go
 ```
 
