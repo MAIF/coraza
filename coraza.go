@@ -119,7 +119,8 @@ type Rule struct {
 
 type CorazaConfig struct {
 	Directives    string `json:"directives"`
-	InspectBodies bool   `json:"inspect_bodies"`
+	InspectInputBodies bool   `json:"inspect_input_bodies"`
+	InspectOutputBodies bool   `json:"inspect_output_bodies"`
 }
 
 func customErrorCallback(matchedRule types.MatchedRule) {
@@ -216,7 +217,7 @@ func ProcessTransaction() {
 		return
 	}
 
-	if configuration.InspectBodies && context.Body != nil {
+	if configuration.InspectInputBodies && context.Body != nil {
 		var body []byte = *context.Body
 		tx.WriteRequestBody(body)
 	}
@@ -259,7 +260,7 @@ func ProcessResponseTransaction() {
 		return
 	}
 
-	if configuration.InspectBodies && context.Request.Body != nil {
+	if configuration.InspectInputBodies && context.Request.Body != nil {
 		var body []byte = *context.Request.Body
 		tx.WriteRequestBody(body)
 	}
@@ -279,7 +280,7 @@ func ProcessResponseTransaction() {
 		return
 	}
 
-	if configuration.InspectBodies && context.Response.Body != nil {
+	if configuration.InspectOutputBodies && context.Response.Body != nil {
 		var body []byte = *context.Response.Body
 		tx.WriteResponseBody(body)
 	}
