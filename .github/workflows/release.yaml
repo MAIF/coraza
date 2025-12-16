@@ -42,11 +42,11 @@ jobs:
           GIT_COMMITTER_EMAIL: github-actions@users.noreply.github.com
         run: |
           ./build.sh "${{ inputs.version }}"
-      - name: Upload coraza.wasm artifact
-        if: success()
-        uses: actions/upload-artifact@v4
+      - name: Release binary and SHA-256 checksum to GitHub
+        uses: softprops/action-gh-release@v1
         with:
           name: coraza-wasm-${{ inputs.version }}
-          path: |
+          tag_name: ${{ inputs.version }}
+          files: |
             ./coraza.wasm
             ./coraza.wasm.sha256
