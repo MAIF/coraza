@@ -1,2 +1,3 @@
 coreruleset
 *.wasm
+*.wasm.sha256
