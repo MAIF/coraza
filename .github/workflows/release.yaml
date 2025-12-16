@@ -48,5 +48,5 @@ jobs:
           name: coraza-wasm-${{ inputs.version }}
           tag_name: ${{ inputs.version }}
           files: |
-            ./coraza.wasm
-            ./coraza.wasm.sha256
+            ./coraza-${{ inputs.version }}.wasm
+            ./coraza-${{ inputs.version }}.wasm.sha256

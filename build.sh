@@ -52,21 +52,14 @@ rsync -av --delete "$ROOT/coreruleset/rules/" "$ROOT/rules/crs/"
 # 5. Run the go build command in $root
 cd "$ROOT"
 echo ">> Building WASM binary coraza.wasm..."
-GOOS=wasip1 GOARCH=wasm go build -o coraza.wasm coraza.go
-
-# 6. Commit changes
-cd "$ROOT"
-git add --all
-git commit -am "chore(deps): bump coreruleset to $LAST_TAG"
-git push origin main
+GOOS=wasip1 GOARCH=wasm go build -o "coraza-${TAG}.wasm" coraza.go
 
 #6. Compute SHA-256 of the final coraza.wasm
 echo ">> Computing SHA-256 for coraza.wasm..."
-
 if command -v sha256sum >/dev/null 2>&1; then
-  sha256sum coraza.wasm | tee coraza.wasm.sha256
+  sha256sum "coraza-${TAG}.wasm" | tee "coraza-${TAG}.wasm.sha256"
 elif command -v shasum >/dev/null 2>&1; then
-  shasum -a 256 coraza.wasm | tee coraza.wasm.sha256
+  shasum -a 256 "coraza-${TAG}.wasm" | tee "coraza-${TAG}.wasm.sha256"
 else
   echo "!! Neither sha256sum nor shasum is available. Cannot compute SHA-256."
   exit 1
