@@ -72,21 +72,13 @@ jobs:
           git add --all
           git commit -am "chore(deps): update coraza.wasm to ${{ github.event.inputs.version }} (CRS ${{ steps.read_crs_tag.outputs.crs_tag }})"
           git push origin chore/update-coraza-wasm-${{ github.event.inputs.version }}
-      - name: Create Pull Request on MAIF/otoroshi
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.OTOROSHI_PAT }}
-          path: ./otoroshi
-          commit-message: |
-            chore: update coraza.wasm to ${{ github.event.inputs.version }} (CRS ${{ steps.read_crs_tag.outputs.crs_tag }})
-          branch: chore/update-coraza-wasm-${{ github.event.inputs.version }}
-          title: "Update coraza.wasm to ${{ github.event.inputs.version }} (CRS ${{ steps.read_crs_tag.outputs.crs_tag }})"
-          body: |
-            This PR updates `otoroshi/conf/wasm/coraza.wasm` to the version built and released in
-            [MAIF/otoroshi-coraza-plugin] for:
-
-            - plugin tag: `${{ github.event.inputs.version }}`
-            - CRS tag: `${{ steps.read_crs_tag.outputs.crs_tag }}`
-
-            Download URL used:
-            `https://github.com/MAIF/otoroshi-coraza-plugin/releases/download/${{ github.event.inputs.version }}/coraza-${{ github.event.inputs.version }}-crs-${{ steps.read_crs_tag.outputs.crs_tag }}.wasm`
+          curl -X POST https://api.github.com/repos/MAIF/otoroshi/pulls \
+            -H "Authorization: Bearer ${{ secrets.OTOROSHI_PAT }}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "title": "Update coraza.wasm to ${{ github.event.inputs.version }} (CRS ${{ steps.read_crs_tag.outputs.crs_tag }})",
+              "head": "chore/update-coraza-wasm-${{ github.event.inputs.version }}",
+              "base": "master",
+              "body": "This PR updates `otoroshi/conf/wasm/coraza.wasm` to the version: ${{ github.event.inputs.version }} with CRS version: `${{ steps.read_crs_tag.outputs.crs_tag }}"
+            }'
