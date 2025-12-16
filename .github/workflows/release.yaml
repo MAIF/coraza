@@ -69,6 +69,7 @@ jobs:
           cd ./otoroshi
           git checkout -b chore/update-coraza-wasm-${{ github.event.inputs.version }}
           cp ../coraza-${{ inputs.version }}-crs-${{ steps.read_crs_tag.outputs.crs_tag }}.wasm ./otoroshi/conf/wasm/coraza.wasm
+          git add --all
           git commit -am "chore(deps): update coraza.wasm to ${{ github.event.inputs.version }} (CRS ${{ steps.read_crs_tag.outputs.crs_tag }})"
           git push origin chore/update-coraza-wasm-${{ github.event.inputs.version }}
       - name: Create Pull Request on MAIF/otoroshi
