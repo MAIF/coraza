@@ -80,5 +80,5 @@ jobs:
               "title": "Update coraza.wasm to ${{ github.event.inputs.version }} (CRS ${{ steps.read_crs_tag.outputs.crs_tag }})",
               "head": "chore/update-coraza-wasm-${{ github.event.inputs.version }}",
               "base": "master",
-              "body": "This PR updates `otoroshi/conf/wasm/coraza.wasm` to the version: ${{ github.event.inputs.version }} with CRS version: `${{ steps.read_crs_tag.outputs.crs_tag }}"
+              "body": "This PR updates `otoroshi/conf/wasm/coraza.wasm` to the version: `${{ github.event.inputs.version }}` with CRS version: `${{ steps.read_crs_tag.outputs.crs_tag }}`"
             }'
