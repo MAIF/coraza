@@ -65,7 +65,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git clone https://github.com/MAIF/otoroshi.git --depth 1
+          git clone https://${{ secrets.OTOROSHI_PAT }}@github.com/MAIF/otoroshi.git --depth 1
           cd ./otoroshi
           git checkout -b chore/update-coraza-wasm-${{ github.event.inputs.version }}
           cp ../coraza-${{ inputs.version }}-crs-${{ steps.read_crs_tag.outputs.crs_tag }}.wasm ./otoroshi/conf/wasm/coraza.wasm
@@ -75,7 +75,7 @@ jobs:
       - name: Create Pull Request on MAIF/otoroshi
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.OTOROSHI_PAT }}
           path: ./otoroshi
           commit-message: |
             chore: update coraza.wasm to ${{ github.event.inputs.version }} (CRS ${{ steps.read_crs_tag.outputs.crs_tag }})
