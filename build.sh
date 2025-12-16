@@ -39,6 +39,7 @@ if [ -z "$LAST_TAG" ]; then
   exit 1
 fi
 
+echo "$LAST_TAG" > "$ROOT/latest_crs_tag.txt"
 echo ">> Checking out tag: $LAST_TAG"
 git checkout "$LAST_TAG"
 

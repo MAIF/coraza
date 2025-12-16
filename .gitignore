@@ -2,3 +2,4 @@ coreruleset
 *.wasm
 *.wasm.sha256
 .DS_Store
+latest_crs_tag.txt

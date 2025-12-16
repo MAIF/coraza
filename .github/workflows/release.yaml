@@ -52,3 +52,29 @@ jobs:
           files: |
             ./coraza-${{ inputs.version }}-*.wasm
             ./coraza-${{ inputs.version }}-*.wasm.sha256
+      - name: Read CRS latest tag
+        id: read_crs_tag
+        run: |
+          echo "crs_tag=$(cat latest_crs_tag.txt)" >> "$GITHUB_OUTPUT"
+      - name: Checkout MAIF/otoroshi
+        run: |
+          git clone https://github.com/MAIF/otoroshi.git --depth 1
+          cp ./coraza-${{ inputs.version }}-crs-${{ steps.read_crs_tag.outputs.crs_tag }}.wasm ./otoroshi/otoroshi/conf/wasm/coraza.wasm
+      - name: Create Pull Request on MAIF/otoroshi
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./otoroshi
+          commit-message: |
+            chore: update coraza.wasm to ${{ github.event.inputs.version }} (CRS ${{ steps.read_crs_tag.outputs.crs_tag }})
+          branch: chore/update-coraza-wasm-${{ github.event.inputs.version }}
+          title: "Update coraza.wasm to ${{ github.event.inputs.version }} (CRS ${{ steps.read_crs_tag.outputs.crs_tag }})"
+          body: |
+            This PR updates `otoroshi/conf/wasm/coraza.wasm` to the version built and released in
+            [MAIF/otoroshi-coraza-plugin] for:
+
+            - plugin tag: `${{ github.event.inputs.version }}`
+            - CRS tag: `${{ steps.read_crs_tag.outputs.crs_tag }}`
+
+            Download URL used:
+            `https://github.com/MAIF/otoroshi-coraza-plugin/releases/download/${{ github.event.inputs.version }}/coraza-${{ github.event.inputs.version }}-crs-${{ steps.read_crs_tag.outputs.crs_tag }}.wasm`
