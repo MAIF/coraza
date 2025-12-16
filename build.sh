@@ -20,7 +20,7 @@ cd "$ROOT"
 # 1. Check if the coreruleset directory exists, otherwise clone it
 if [ ! -d "coreruleset" ]; then
   echo ">> Cloning coreruleset..."
-  git clone git@github.com:coreruleset/coreruleset.git
+  git clone https://github.com/coreruleset/coreruleset.git
 else
   echo ">> coreruleset directory already exists."
 fi
