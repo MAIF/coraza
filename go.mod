@@ -1,6 +1,6 @@
 module coraza-wasm
 
-go 1.23.5
+go 1.25.5
 
 require (
 	github.com/corazawaf/coraza/v3 v3.3.3
